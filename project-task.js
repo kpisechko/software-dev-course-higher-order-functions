@@ -43,7 +43,27 @@ Step-by-Step:
 2. Use the `filter()` method to apply the callback to the array.
 3. Return the filtered result.
 */
+console.log("Task 1");
+// mine
+function filterProducts(items, callbackFunction) {
+    return items.filter(callbackFunction);
+}
 
+
+let filterGreaterThan500 = filterProducts(products, item => item.price >= 500);
+let filterInStock = filterProducts(products, item => item.inStock);
+
+console.log("Filtered products greater than $500:",filterGreaterThan500);
+console.log("Filtered products in stock:", filterInStock);
+
+// group
+
+function filterProducts(products, callback)  {
+  return products.filter(callback);
+}
+
+let isInStock = filterProducts(products, product => product.inStock);
+console.log(isInStock);
 
 /*
 🔹 Task 2: Transform Product Names
@@ -56,6 +76,15 @@ Step-by-Step:
 3. Store the result in a new variable.
 */
 
+console.log("Task 2");
+let nameToUpperCase = products.map((item) => {
+  let itemCopy = {...item};
+  itemCopy.name = itemCopy.name.toUpperCase();
+  return itemCopy;
+});
+console.log("Uppercased names:", nameToUpperCase);
+
+// I missed the groups on this one
 
 /*
 🔹 Task 3: Generate Discounted Prices
@@ -70,6 +99,40 @@ Step-by-Step:
 3. Use this returned function inside a `map()` call to apply discounts to all products.
 */
 
+// mine
+
+console.log("Task 3");
+function applyDiscountMe(discountPercent) {
+  return function(product) {
+    let productCopy = {...product};
+    productCopy.price = productCopy.price * (1 - discountPercent);
+    return productCopy;
+  }
+}
+const tenPercent = applyDiscountMe(.10);
+let discountedProductsOne = products.map(tenPercent);
+console.log("Discounted products 10%:", discountedProductsOne);
+
+const twentyPercent = applyDiscountMe(.20);
+let discountedProductsTwo = products.map(twentyPercent);
+console.log("Discounted products 20%:", discountedProductsTwo);
+
+// I added the Me at the end of applyDiscount because the group used the same name
+
+// group
+
+function applyDiscount(discountPercent) {
+  return function (price) {
+    return price - (price * discountPercent/100);
+  }
+}
+const discount10 = applyDiscount(20);
+const discountedProducts = products.map((product) => ({
+  ...product, 
+  price: discount10(product.price)
+}));
+console.log(discountedProducts);
+
 
 /*
 🔹 Task 4: Calculate Total Inventory Value
@@ -81,7 +144,11 @@ Step-by-Step:
 2. Add only the prices of products where `inStock` is true.
 3. Store the total in a new variable.
 */
+console.log("Task 4");
 
+let totalInStock = filterInStock.reduce((total, item) => total + item.price, 0);
+
+console.log("Total value in stock:", totalInStock);
 
 // ============================================
 // 🧪 Console Test Your Work
